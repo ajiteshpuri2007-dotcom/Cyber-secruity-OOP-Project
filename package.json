@@ -1,0 +1,11 @@
+{
+  "name": "privy-cpp-backend",
+  "version": "2.0.0",
+  "description": "PRiVY phishing URL detection system with C++ backend and static web frontend",
+  "scripts": {
+    "build": "make",
+    "start": "make run",
+    "clean": "make clean"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PRiVY – Security Administration Console</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="brand-container">
+      <a href="index.html" style="display:flex; align-items:center; gap:0.75rem; text-decoration:none;">
+        <svg class="brand-logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <path d="m9 12 2 2 4-4"/>
+        </svg>
+        <div>
+          <div class="brand-title">PR<span>i</span>VY</div>
+          <span class="brand-subtitle">Administrator Console</span>
+        </div>
+      </a>
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="#stats" class="nav-link active">Telemetry</a></li>
+      <li><a href="#users" class="nav-link">User Management</a></li>
+      <li><a href="#scans" class="nav-link">System Scans</a></li>
+    </ul>
+
+    <div class="auth-nav-group">
+      <div class="user-badge-pill">
+        <span id="admin-username" style="font-weight: 600; color: var(--text-main);">Admin</span>
+        <span class="role-badge admin">ADMIN</span>
+      </div>
+      <button id="admin-logout-btn" class="btn btn-danger btn-sm">Sign Out</button>
+    </div>
+  </nav>
+
+  <main class="container">
+    <!-- Header Banner -->
+    <div style="margin-bottom: 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <h1 style="font-size: 1.85rem; font-weight: 800; color: #ffffff;">Threat Intelligence & Administration</h1>
+        <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.2rem;">
+          Real-time security telemetry, user authorizations, and global scan audit logs
+        </p>
+      </div>
+      <button id="refresh-all-btn" class="btn btn-secondary btn-sm">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+        </svg>
+        Refresh Telemetry
+      </button>
+    </div>
+
+    <!-- System Telemetry Statistics -->
+    <section id="stats" class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label">Registered Accounts</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--brand-sky)" stroke-width="2">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <div id="stat-users-count" class="stat-value">0</div>
+        <div class="stat-detail">System-wide active users</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label">Total Scans Audited</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--brand-cyan)" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 14 14"></polyline>
+          </svg>
+        </div>
+        <div id="stat-scans-count" class="stat-value">0</div>
+        <div class="stat-detail">Processed via C++ engine</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label">Safe URLs Verified</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--safe-primary)" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+        <div id="stat-safe-count" class="stat-value" style="color: var(--safe-primary);">0</div>
+        <div id="stat-safe-pct" class="stat-detail">100% safe ratio</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label">Threats Intercepted</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--threat-primary)" stroke-width="2">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          </svg>
+        </div>
+        <div id="stat-threat-count" class="stat-value" style="color: var(--threat-primary);">0</div>
+        <div id="stat-threat-pct" class="stat-detail">0% threat ratio</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label">Average Score</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--brand-light)" stroke-width="2">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+        </div>
+        <div id="stat-avg-score" class="stat-value">100</div>
+        <div class="stat-detail">Fleet-wide security index</div>
+      </div>
+    </section>
+
+    <!-- Threat Distribution Meter Card -->
+    <div class="card" style="margin-bottom: 2rem;">
+      <div class="card-header">
+        <h3 class="card-title">Threat vs Safe URL Distribution</h3>
+        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+          <span style="color: var(--safe-primary); font-weight: 700;">●</span> Safe: <span id="dist-safe-label">100%</span> &nbsp;|&nbsp;
+          <span style="color: var(--threat-primary); font-weight: 700;">●</span> Phishing: <span id="dist-threat-label">0%</span>
+        </div>
+      </div>
+      <div class="progress-bar-bg" style="height: 12px; display: flex; overflow: hidden;">
+        <div id="dist-safe-bar" style="height: 100%; width: 100%; background-color: var(--safe-primary); transition: width 0.6s ease;"></div>
+        <div id="dist-threat-bar" style="height: 100%; width: 0%; background-color: var(--threat-primary); transition: width 0.6s ease;"></div>
+      </div>
+    </div>
+
+    <!-- User Management Section -->
+    <section id="users" class="card" style="margin-bottom: 2rem;">
+      <div class="card-header" style="flex-wrap: wrap; gap: 0.75rem;">
+        <div>
+          <h2 class="card-title">User Registry & Role Management</h2>
+          <p style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 0.2rem;">
+            Inspect user accounts, manage administrative roles, and enforce security policies
+          </p>
+        </div>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <input type="text" id="user-search-input" class="form-input" placeholder="Search by username or email..." style="width: 240px; padding: 0.45rem 0.75rem; font-size: 0.82rem;" />
+          <button id="open-add-user-btn" class="btn btn-primary btn-sm">+ Add Account</button>
+        </div>
+      </div>
+
+      <!-- Add User Inline Form (Collapsible) -->
+      <div id="add-user-panel" class="card hidden" style="background: var(--bg-darkest); border: 1px dashed var(--border-medium); margin-bottom: 1.5rem; padding: 1.25rem;">
+        <h4 style="font-size: 0.95rem; font-weight: 600; color: var(--brand-light); margin-bottom: 0.75rem;">
+          Register New Account (Administrator Action)
+        </h4>
+        <div id="add-user-alert" class="alert alert-danger hidden"></div>
+        <div id="add-user-success" class="alert alert-success hidden"></div>
+        <form id="add-user-form" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) 120px; gap: 0.75rem; align-items: end;">
+          <div>
+            <label class="form-label" style="font-size: 0.75rem;">Username</label>
+            <input type="text" id="new-username" class="form-input" style="padding: 0.5rem;" required minlength="3" />
+          </div>
+          <div>
+            <label class="form-label" style="font-size: 0.75rem;">Email</label>
+            <input type="email" id="new-email" class="form-input" style="padding: 0.5rem;" placeholder="optional" />
+          </div>
+          <div>
+            <label class="form-label" style="font-size: 0.75rem;">Password</label>
+            <input type="password" id="new-password" class="form-input" style="padding: 0.5rem;" required minlength="6" />
+          </div>
+          <div>
+            <label class="form-label" style="font-size: 0.75rem;">Role</label>
+            <select id="new-role" class="form-select" style="padding: 0.5rem;">
+              <option value="user" selected>User</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+          <div style="display: flex; gap: 0.35rem;">
+            <button type="submit" class="btn btn-primary btn-sm" style="flex: 1;">Save</button>
+            <button type="button" id="close-add-user-btn" class="btn btn-secondary btn-sm">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Total Scans</th>
+              <th>Registered At</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="users-table-body"></tbody>
+        </table>
+      </div>
+
+      <div id="users-empty" class="empty-state hidden">
+        <div class="empty-state-title">No Users Found</div>
+        <p style="font-size: 0.85rem;">No user records match your search criteria.</p>
+      </div>
+    </section>
+
+    <!-- System Scan Telemetry Feed -->
+    <section id="scans" class="card">
+      <div class="card-header" style="flex-wrap: wrap; gap: 0.75rem;">
+        <div>
+          <h2 class="card-title">System-Wide Scan Telemetry</h2>
+          <p style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 0.2rem;">
+            Continuous audit log of all URLs evaluated across all users
+          </p>
+        </div>
+        <div style="display: flex; gap: 0.5rem;">
+          <button type="button" class="btn btn-secondary btn-sm scan-filter-btn active" data-filter="all">All</button>
+          <button type="button" class="btn btn-secondary btn-sm scan-filter-btn" data-filter="phishing">Phishing Threats</button>
+          <button type="button" class="btn btn-secondary btn-sm scan-filter-btn" data-filter="safe">Safe URLs</button>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Scan ID</th>
+              <th>Timestamp</th>
+              <th>User</th>
+              <th>URL</th>
+              <th>Verdict</th>
+              <th>Score</th>
+              <th>Flagged Reasons</th>
+            </tr>
+          </thead>
+          <tbody id="scans-table-body"></tbody>
+        </table>
+      </div>
+
+      <div id="scans-empty" class="empty-state hidden">
+        <div class="empty-state-title">No Scans Recorded</div>
+        <p style="font-size: 0.85rem;">No scans recorded under the selected filter.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 PRiVY Security Systems. All rights reserved.</p>
+  </footer>
+
+  <script src="admin.js"></script>
+</body>
+</html>

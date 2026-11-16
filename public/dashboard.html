@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PRiVY – User Security Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="brand-container">
+      <a href="index.html" style="display:flex; align-items:center; gap:0.75rem; text-decoration:none;">
+        <svg class="brand-logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <path d="m9 12 2 2 4-4"/>
+        </svg>
+        <div>
+          <div class="brand-title">PR<span>i</span>VY</div>
+          <span class="brand-subtitle">Security Console</span>
+        </div>
+      </a>
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="#scan" class="nav-link active">Scanner</a></li>
+      <li><a href="#history" class="nav-link">Scan History</a></li>
+      <li><a href="#profile" class="nav-link">Account</a></li>
+    </ul>
+
+    <div class="auth-nav-group">
+      <div class="user-badge-pill">
+        <span id="nav-username" style="font-weight: 600; color: var(--text-main);">User</span>
+        <span id="nav-role" class="role-badge user">USER</span>
+      </div>
+      <button id="logout-btn" class="btn btn-danger btn-sm">Sign Out</button>
+    </div>
+  </nav>
+
+  <main class="container">
+    <!-- User Overview Stats Row -->
+    <section class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label">Total URLs Scanned</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--brand-sky)" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+        </div>
+        <div id="stat-total-scans" class="stat-value">0</div>
+        <div class="stat-detail">Recorded in your profile</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label">Verified Safe</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--safe-primary)" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+        <div id="stat-safe-scans" class="stat-value" style="color: var(--safe-primary);">0</div>
+        <div id="stat-safe-pct" class="stat-detail">100% of scans</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label">Threats Flagged</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--threat-primary)" stroke-width="2">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          </svg>
+        </div>
+        <div id="stat-threat-scans" class="stat-value" style="color: var(--threat-primary);">0</div>
+        <div id="stat-threat-pct" class="stat-detail">0% of scans</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label">Avg Security Score</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--brand-light)" stroke-width="2">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+        </div>
+        <div id="stat-avg-score" class="stat-value">100</div>
+        <div class="stat-detail">Overall safety baseline</div>
+      </div>
+    </section>
+
+    <!-- Scan Input Card -->
+    <section id="scan" class="scanner-container">
+      <div class="card-header" style="margin-bottom: 1rem;">
+        <div>
+          <h2 class="card-title">Live URL Threat Scanner</h2>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.2rem;">
+            Run deep inspection on suspicious hyperlinks via compiled C++ analysis engine
+          </p>
+        </div>
+        <span class="role-badge admin" style="background: rgba(20, 184, 166, 0.15); color: var(--brand-light); border: 1px solid rgba(20,184,166,0.3);">
+          C++ Engine Online
+        </span>
+      </div>
+
+      <div class="scanner-input-group">
+        <div class="scanner-input-wrapper">
+          <svg class="scanner-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="url-input" class="scanner-input" placeholder="Enter target URL to scan (e.g., http://192.168.1.1/login or https://example.com)..." />
+        </div>
+        <button id="analyze-btn" class="btn btn-primary">
+          <span id="btn-text">Execute Scan</span>
+          <div id="btn-spinner" class="spinner hidden"></div>
+        </button>
+      </div>
+
+      <!-- Quick Test Pills -->
+      <div class="quick-tests">
+        <span>Test Samples:</span>
+        <button type="button" class="quick-pill" data-url="https://github.com/google">Verified: GitHub</button>
+        <button type="button" class="quick-pill" data-url="http://192.168.0.101/bank/login">IP Credential Phishing</button>
+        <button type="button" class="quick-pill" data-url="http://bit.ly/secure-account-update">Shortened URL</button>
+        <button type="button" class="quick-pill" data-url="http://update-security-paypal.com/verify">Hyphen Spoofing</button>
+      </div>
+
+      <!-- Result Card -->
+      <div id="result" class="result-box hidden">
+        <div class="result-header">
+          <div id="verdict-badge" class="verdict-tag safe">
+            <span id="status-text">Safe URL</span>
+          </div>
+          <div class="score-display">
+            <span class="stat-label" style="margin-right: 0.5rem;">Security Score:</span>
+            <span id="score" class="score-number safe">100</span>
+            <span class="score-total">/100</span>
+          </div>
+        </div>
+
+        <div class="progress-bar-bg">
+          <div id="score-bar" class="progress-bar-fill" style="width: 100%; background-color: var(--safe-primary);"></div>
+        </div>
+
+        <div class="scanned-url-row">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+          </svg>
+          <span id="inspected-url"></span>
+        </div>
+
+        <h4 style="font-size: 0.85rem; color: var(--text-main); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">
+          Detection Telemetry Breakdown
+        </h4>
+        <ul id="reasons" class="reasons-list"></ul>
+      </div>
+    </section>
+
+    <!-- Scan History Section -->
+    <section id="history" class="card" style="margin-bottom: 2rem;">
+      <div class="card-header">
+        <div>
+          <h2 class="card-title">Personal Scan History</h2>
+          <p style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 0.2rem;">
+            Isolated scan records stored securely under your account
+          </p>
+        </div>
+        <button id="clear-history" class="btn btn-danger btn-sm">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          </svg>
+          Clear History
+        </button>
+      </div>
+
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>Scanned URL</th>
+              <th>Verdict</th>
+              <th>Security Score</th>
+              <th>Detection Reasons</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="history-table-body"></tbody>
+        </table>
+      </div>
+
+      <div id="history-empty" class="empty-state hidden">
+        <svg class="empty-state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        <div class="empty-state-title">No Scan History Yet</div>
+        <p style="font-size: 0.85rem;">Enter a URL in the scanner above to perform your first detection.</p>
+      </div>
+    </section>
+
+    <!-- Profile Details Card -->
+    <section id="profile" class="card">
+      <div class="card-header">
+        <h2 class="card-title">Account Profile</h2>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem;">
+        <div>
+          <span class="stat-label">Username</span>
+          <div id="profile-username" style="font-size: 1.1rem; font-weight: 600; color: var(--text-main); margin-top: 0.2rem;">-</div>
+        </div>
+        <div>
+          <span class="stat-label">Email Address</span>
+          <div id="profile-email" style="font-size: 1.1rem; font-weight: 600; color: var(--text-main); margin-top: 0.2rem;">-</div>
+        </div>
+        <div>
+          <span class="stat-label">Account Role</span>
+          <div style="margin-top: 0.2rem;">
+            <span id="profile-role" class="role-badge user">USER</span>
+          </div>
+        </div>
+        <div>
+          <span class="stat-label">User ID</span>
+          <div id="profile-id" style="font-size: 1.1rem; font-weight: 600; color: var(--text-main); margin-top: 0.2rem;">-</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 PRiVY Security Systems. All rights reserved.</p>
+  </footer>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

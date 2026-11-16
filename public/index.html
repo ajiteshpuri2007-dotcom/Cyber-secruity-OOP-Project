@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PRiVY – High Performance Phishing URL Detection</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="brand-container">
+      <svg class="brand-logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        <path d="m9 12 2 2 4-4"/>
+      </svg>
+      <div>
+        <div class="brand-title">PR<span>i</span>VY</div>
+        <span class="brand-subtitle">URL Threat Intelligence</span>
+      </div>
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="#" class="nav-link active">Home</a></li>
+      <li><a href="#scanner" class="nav-link">Live Scanner</a></li>
+      <li><a href="#features" class="nav-link">Detection Rules</a></li>
+    </ul>
+
+    <div class="auth-nav-group" id="nav-auth-buttons">
+      <a href="login.html" class="btn btn-secondary btn-sm">Sign In</a>
+      <a href="signup.html" class="btn btn-primary btn-sm">Get Started</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero-section">
+    <div class="hero-tag">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+      </svg>
+      C++ High-Performance Rule Engine
+    </div>
+    <h1 class="hero-title">Zero-Latency <span>Phishing URL</span> Detection & Analysis</h1>
+    <p class="hero-subtitle">
+      Inspect suspicious links instantly before clicking. PRiVY evaluates lexical patterns, host obscurity, credential redirection, and protocol risks in real time.
+    </p>
+
+    <!-- Scanner Component -->
+    <div id="scanner" class="scanner-container">
+      <div class="scanner-input-group">
+        <div class="scanner-input-wrapper">
+          <svg class="scanner-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="url-input" class="scanner-input" placeholder="Enter full URL to analyze (e.g. https://...)" />
+        </div>
+        <button id="analyze-btn" class="btn btn-primary">
+          <span id="btn-text">Analyze URL</span>
+          <div id="btn-spinner" class="spinner hidden"></div>
+        </button>
+      </div>
+
+      <!-- Quick Test Pills -->
+      <div class="quick-tests">
+        <span>Test Examples:</span>
+        <button type="button" class="quick-pill" data-url="https://www.google.com">Safe: Google</button>
+        <button type="button" class="quick-pill" data-url="http://192.168.1.1/login/verify">IP Phishing Link</button>
+        <button type="button" class="quick-pill" data-url="http://bit.ly/bank-password-update">URL Shortener</button>
+        <button type="button" class="quick-pill" data-url="http://paypal-security-update-account.com@evil.com">Deceptive Spoof</button>
+      </div>
+
+      <!-- Live Scan Result Box -->
+      <div id="result" class="result-box hidden">
+        <div class="result-header">
+          <div id="verdict-badge" class="verdict-tag safe">
+            <span id="status-text">Safe URL</span>
+          </div>
+          <div class="score-display">
+            <span class="stat-label" style="margin-right: 0.5rem;">Security Score:</span>
+            <span id="score" class="score-number safe">100</span>
+            <span class="score-total">/100</span>
+          </div>
+        </div>
+
+        <div class="progress-bar-bg">
+          <div id="score-bar" class="progress-bar-fill" style="width: 100%; background-color: var(--safe-primary);"></div>
+        </div>
+
+        <div class="scanned-url-row">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+          </svg>
+          <span id="inspected-url"></span>
+        </div>
+
+        <h4 style="font-size: 0.88rem; color: var(--text-main); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">
+          Detection Analysis Details
+        </h4>
+        <ul id="reasons" class="reasons-list"></ul>
+      </div>
+    </div>
+  </header>
+
+  <!-- Features & Architecture Section -->
+  <section id="features" class="container">
+    <div style="text-align: center; margin-bottom: 2.5rem;">
+      <h2 style="font-size: 1.85rem; font-weight: 700; color: #ffffff; margin-bottom: 0.5rem;">
+        Engineered for Reliable Threat Discovery
+      </h2>
+      <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto; font-size: 0.95rem;">
+        Every scan executes directly through our compiled C++ modular engine, evaluating structural features and heuristic patterns.
+      </p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="card">
+        <div class="stat-header">
+          <span class="stat-label">Host Obfuscation</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--brand-light)" stroke-width="2">
+            <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+            <path d="M6 8h.01M10 8h.01M14 8h.01"></path>
+          </svg>
+        </div>
+        <p style="font-size: 0.9rem; color: var(--text-secondary);">
+          Detects raw IPv4 address formats utilized to circumvent domain reputation services and DNS filters.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="stat-header">
+          <span class="stat-label">Credential Keywords</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--brand-light)" stroke-width="2">
+            <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+        </div>
+        <p style="font-size: 0.9rem; color: var(--text-secondary);">
+          Flags deceptive path strings mimicking banking portals, credential authentication, and account verification forms.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="stat-header">
+          <span class="stat-label">Domain Deception</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--brand-light)" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+          </svg>
+        </div>
+        <p style="font-size: 0.9rem; color: var(--text-secondary);">
+          Identifies excessive subdomain hierarchies, multi-hyphen typosquatting, and userinfo (@) redirection vectors.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="stat-header">
+          <span class="stat-label">Transport Protocol</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--brand-light)" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+        </div>
+        <p style="font-size: 0.9rem; color: var(--text-secondary);">
+          Verifies HTTPS transport security standards to protect users from plaintext credential harvesting and MITM risks.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2026 PRiVY Security Systems. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
